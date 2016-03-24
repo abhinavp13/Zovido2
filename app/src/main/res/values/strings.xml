@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Zovido</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="txtCredits"><a href="http://www.google.com">http://www.google.com</a></string>
+
+
+    <string name="crash_toast_text">Ooooops ! I crashed, but a report has been sent to my developer to help fix the issue !</string>
+
+    <string name="crash_dialog_title">Zovido has crashed</string>
+<string name="crash_dialog_text">An unexpected error occurred forcing the
+    application to stop. Please help us fix this by sending us error data,
+    all you have to do is click OK.</string>
+    <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
+    <string name="crash_dialog_ok_toast">Thank you !</string>
+    <string name="unknown">Unknown</string>
+    <string name="purpose_empty">"Purpose :~: "</string>
+    <string name="purpose_colon">"Purpose : "</string>
+    <string name="product_empty">"Product :~: "</string>
+    <string name="product_colon">"Product : "</string>
+    <string name="sport_empty">"Sport :~: "</string>
+    <string name="sport_colon">"Sport : "</string>
+
+
+    <!-- Purpose -->
+    <string-array name="purpose">
+        <item>Select Purpose for Call</item>
+        <item>New Query</item>
+        <item>Follow-Up</item>
+        <item>Co-ordination</item>
+        <item>Content Delivery</item>
+        <item>Feedback</item>
+    </string-array>
+
+    <!-- Product List -->
+    <string-array name="product">
+        <item>Select Product related in Call</item>
+        <item>Grounds and Courts Booking</item>
+        <item>Sessions</item>
+        <item>Classes</item>
+        <item>Memberships</item>
+        <item>Pick-up Game</item>
+        <item>League and Ladder</item>
+        <item>Tournament</item>
+        <item>Event</item>
+    </string-array>
+
+    <!-- Sport List -->
+    <string-array name="sport">
+        <item>Select Sport related in Call</item>
+        <item>Cricket</item>
+        <item>Football</item>
+        <item>Badminton</item>
+        <item>Basketball</item>
+        <item>Lawn Tennis</item>
+        <item>Volleyball</item>
+        <item>Table Tennis</item>
+        <item>Multiple</item>
+        <item>Others</item>
+    </string-array>
+
+</resources>

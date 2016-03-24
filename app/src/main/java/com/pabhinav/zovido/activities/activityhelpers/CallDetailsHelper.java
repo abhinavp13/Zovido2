@@ -2,12 +2,15 @@ package com.pabhinav.zovido.activities.activityhelpers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.pabhinav.zovido.R;
+import com.pabhinav.zovido.activities.AboutActivity;
 import com.pabhinav.zovido.activities.CallDetailsActivity;
+import com.pabhinav.zovido.activities.FeedbackActivity;
 import com.pabhinav.zovido.adpater.CallDetailsPagerAdapter;
 import com.pabhinav.zovido.fragments.CallLogFragmentTab;
 import com.pabhinav.zovido.fragments.SavedLogFragmentTab;
@@ -124,6 +127,16 @@ public class CallDetailsHelper {
      * Handle Feedback item clicked in drawer.
      */
     public void handleFeedbackClicked(){
-
+        Intent intent = new Intent(callDetailsActivity, FeedbackActivity.class);
+        callDetailsActivity.startActivity(intent);
     }
+
+    /**
+     * Handle About item clicked in drawer
+     */
+    public void handleAboutClicked(){
+        Intent intent = new Intent(callDetailsActivity, AboutActivity.class);
+        callDetailsActivity.startActivity(intent);
+    }
+
 }

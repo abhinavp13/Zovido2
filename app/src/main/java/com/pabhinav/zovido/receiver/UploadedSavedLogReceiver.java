@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.pabhinav.zovido.R;
+import com.pabhinav.zovido.activities.CallDetailsActivity;
 import com.pabhinav.zovido.adpater.SavedLogsRecyclerViewAdapter;
 import com.pabhinav.zovido.application.ZovidoApplication;
 
@@ -36,7 +37,7 @@ public class UploadedSavedLogReceiver extends BroadcastReceiver{
 
         /** update saved log counter in drawer **/
         if(context != null){
-            ((TextView)((Activity) context).findViewById(R.id.saved_count_text_view)).setText(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size());
+            ZovidoApplication.getInstance().getDrawerNavigationViewElements((CallDetailsActivity) context).getSavedLogCounter().setText(String.valueOf(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size()));
         }
 
         /** If saved log recycler view adapter **/

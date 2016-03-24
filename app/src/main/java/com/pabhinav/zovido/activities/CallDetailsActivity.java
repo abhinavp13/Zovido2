@@ -132,9 +132,9 @@ public class CallDetailsActivity extends AbstractActivity implements NavigationV
         if (id == R.id.nav_sheet_settings && callDetailsHelper != null) {
 
         } else if (id == R.id.nav_feedback && callDetailsHelper != null) {
-
+            callDetailsHelper.handleFeedbackClicked();
         } else if (id == R.id.nav_about && callDetailsHelper != null) {
-
+            callDetailsHelper.handleAboutClicked();
         }
 
         /** Close drawer **/

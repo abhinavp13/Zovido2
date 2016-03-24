@@ -121,10 +121,20 @@
 
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
-        <activity android:name=".activities.MainActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.NotificationViewActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.NotificationViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

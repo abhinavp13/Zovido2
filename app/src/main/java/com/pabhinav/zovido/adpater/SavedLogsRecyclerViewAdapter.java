@@ -205,8 +205,8 @@ public class SavedLogsRecyclerViewAdapter extends RecyclerView.Adapter<SavedLogs
                 }
 
                 /** update saved log counter in drawer **/
-                if(v.getContext() != null){
-                    ((TextView)((Activity) v.getContext()).findViewById(R.id.saved_count_text_view)).setText(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size());
+                if(v.getContext() != null || v.getContext() instanceof CallDetailsActivity){
+                    ZovidoApplication.getInstance().getDrawerNavigationViewElements((CallDetailsActivity) v.getContext()).getSavedLogCounter().setText(String.valueOf(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size()));
                 }
 
                 /** Update Adapter **/

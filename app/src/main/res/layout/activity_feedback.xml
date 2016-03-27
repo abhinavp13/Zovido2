@@ -49,7 +49,7 @@
                 android:layout_margin="32dp"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/zovido"
                 android:layout_below="@+id/relativeLayout5"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -73,7 +73,7 @@
                 android:textColor="@android:color/white"
                 android:layout_marginEnd="18dp"
                 android:layout_marginRight="18dp"
-                android:text = "We'd love to get feedback from you on our app. The more details you can provide, the better."
+                android:text = "We'd love to hear from you about Zovido. Don't hesitate, tell us all you like or hate !"
                 android:layout_below="@+id/textView2"
                 android:layout_alignLeft="@+id/textView2"
                 android:layout_alignStart="@+id/textView2" />

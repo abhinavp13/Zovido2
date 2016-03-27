@@ -12,12 +12,12 @@
         android:onClick="navigationHeaderClicked"
         android:id="@+id/header_relative_layout">
 
-        <!-- TODO : Change Icon -->
-
         <ImageView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:background="@mipmap/ic_launcher"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/zovido"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:id="@+id/app_icon_white_image_view"
             android:layout_above="@+id/agent_name_text_view"
             android:layout_centerHorizontal="true" />

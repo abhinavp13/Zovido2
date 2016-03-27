@@ -65,8 +65,7 @@ public class FetchCallLogsIntentService extends IntentService {
             if(ZovidoApplication.getInstance() != null){
                 ZovidoApplication.getInstance().trackException(e);
 
-                /** Take user to app settings and ask for permissions **/
-                Utils.needPermissionsDialog(ZovidoApplication.getInstance());
+                /** Permissions required **/
             }
 
             return;

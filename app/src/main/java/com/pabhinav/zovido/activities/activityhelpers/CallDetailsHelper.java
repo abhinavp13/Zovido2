@@ -10,6 +10,7 @@ import android.view.View;
 import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.activities.AboutActivity;
 import com.pabhinav.zovido.activities.CallDetailsActivity;
+import com.pabhinav.zovido.activities.ChangeSheetSettingsActivity;
 import com.pabhinav.zovido.activities.FeedbackActivity;
 import com.pabhinav.zovido.adpater.CallDetailsPagerAdapter;
 import com.pabhinav.zovido.fragments.CallLogFragmentTab;
@@ -80,13 +81,6 @@ public class CallDetailsHelper {
                         savedLogFragmentTab.savedLogsRecyclerViewAdapter.notifyDataSetChanged();
                     }
                 }
-
-                /** Change the visibility of custom call icon (and may be fab menu, if fab menu is not part of fragment) **/
-                if (position == 0) {
-                    callDetailsActivity.findViewById(R.id.custom_addition_icon).setVisibility(View.GONE);
-                } else {
-                    callDetailsActivity.findViewById(R.id.custom_addition_icon).setVisibility(View.VISIBLE);
-                }
             }
 
             @Override
@@ -139,4 +133,11 @@ public class CallDetailsHelper {
         callDetailsActivity.startActivity(intent);
     }
 
+    /**
+     * handle Sheet Settings changes item clicked in drawer
+     */
+    public void handleSheetSettingChanges(){
+        Intent intent = new Intent(callDetailsActivity, ChangeSheetSettingsActivity.class);
+        callDetailsActivity.startActivity(intent);
+    }
 }

@@ -128,9 +128,8 @@ public class CallDetailsActivity extends AbstractActivity implements NavigationV
         /** Handle navigation view item clicks here. **/
         int id = item.getItemId();
 
-        /** TODO : Navigation drawer item click events  **/
         if (id == R.id.nav_sheet_settings && callDetailsHelper != null) {
-
+            callDetailsHelper.handleSheetSettingChanges();
         } else if (id == R.id.nav_feedback && callDetailsHelper != null) {
             callDetailsHelper.handleFeedbackClicked();
         } else if (id == R.id.nav_about && callDetailsHelper != null) {
@@ -139,7 +138,7 @@ public class CallDetailsActivity extends AbstractActivity implements NavigationV
 
         /** Close drawer **/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+    drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

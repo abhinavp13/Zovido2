@@ -60,5 +60,6 @@
         <item>Multiple</item>
         <item>Others</item>
     </string-array>
+    <string name="title_activity_on_board">OnBoardActivity</string>
 
 </resources>

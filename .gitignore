@@ -8,3 +8,5 @@
 /captures
 *.json
 *.p12
+gradle.properties
+*.properties

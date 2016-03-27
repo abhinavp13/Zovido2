@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fdfdfd"
+    tools:context=".activities.ChangeSheetSettingsActivity">
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:onClick="backClicked"
+        android:src="@drawable/ic_arrow_back_blue_24dp"
+        android:id="@+id/back_button" />
+    
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/settings"
+        android:layout_marginTop="72dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView11" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:layout_marginBottom="56dp"
+        android:textColor="@android:color/black"
+        android:text = "SPREADSHEET SETTINGS"
+        android:layout_below="@+id/imageView11"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView9" />
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/spreadsheet_card_view"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        card_view:cardElevation="4dp"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tile_background"
+            android:layout_below="@+id/textView9"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:text="Spreadsheet Key"
+                android:id="@+id/spreadsheet_heading"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/relativeLayout7"
+                android:layout_toStartOf="@+id/relativeLayout7" />
+
+
+            <RelativeLayout
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:onClick="spreadsheetEditOrDoneClicked"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/relativeLayout7">
+
+                <ImageView
+                    android:id="@+id/spreadsheet_edit_button"
+                    android:onClick="spreadsheetEditOrDoneClicked"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="18dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_settings_black_24dp" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:maxLines="2"
+                android:visibility="visible"
+                android:textSize="16sp"
+                android:text = "1ctne0WlN-63Kh-a6tSR5edhFKW-lUVcRpu6pgtyHGSI"
+                android:layout_below="@+id/spreadsheet_heading"
+                android:layout_marginTop="16dp"
+                android:layout_alignLeft="@+id/spreadsheet_heading"
+                android:layout_alignStart="@+id/spreadsheet_heading"
+                android:layout_toLeftOf="@+id/relativeLayout7"
+                android:layout_toStartOf="@+id/relativeLayout7"
+                android:id="@+id/spreadsheet_dummy_text" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:maxLines="2"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                android:text = "1ctne0WlN-63Kh-a6tSR5edhFKW-lUVcRpu6pgtyHGSI"
+                android:id="@+id/spreadsheet_key_edit_text"
+                android:background="@null"
+                android:layout_alignLeft="@+id/spreadsheet_dummy_text"
+                android:layout_alignStart="@+id/spreadsheet_dummy_text"
+                android:layout_alignRight="@+id/spreadsheet_dummy_text"
+                android:layout_alignEnd="@+id/spreadsheet_dummy_text"
+                android:layout_alignTop="@+id/spreadsheet_dummy_text"
+                android:layout_alignBottom="@+id/spreadsheet_dummy_text" />
+
+            <View
+                android:id="@+id/underline_spreadsheet_key"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/colorPrimary"
+                android:layout_below="@+id/spreadsheet_key_edit_text"
+                android:layout_alignLeft="@+id/spreadsheet_key_edit_text"
+                android:layout_alignStart="@+id/spreadsheet_key_edit_text"
+                android:layout_alignRight="@+id/spreadsheet_key_edit_text"
+                android:layout_alignEnd="@+id/spreadsheet_key_edit_text" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/worksheet_card_view"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        card_view:cardElevation="4dp"
+        android:layout_below="@+id/spreadsheet_card_view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tile_background"
+            android:layout_below="@+id/textView9"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:text="WorkSheet Name"
+                android:id="@+id/worksheet_heading"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/relativeLayout6"
+                android:layout_toStartOf="@+id/relativeLayout6" />
+
+            <RelativeLayout
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:onClick="worksheetEditOrDoneClicked"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/relativeLayout6">
+
+
+                <ImageView
+                    android:onClick="worksheetEditOrDoneClicked"
+                    android:id="@+id/worksheet_edit_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="18dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_settings_black_24dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/worksheet_dummy_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:visibility="visible"
+                android:text = "Call Logs"
+                android:layout_below="@+id/worksheet_heading"
+                android:layout_marginTop="16dp"
+                android:layout_alignLeft="@+id/worksheet_heading"
+                android:layout_alignStart="@+id/worksheet_heading"
+                android:layout_toLeftOf="@+id/relativeLayout6"
+                android:layout_toStartOf="@+id/relativeLayout6" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                android:layout_marginTop="16dp"
+                android:text = "Call Logs"
+                android:layout_below="@+id/worksheet_heading"
+                android:id="@+id/worksheet_edit_text"
+                android:background="@null"
+                android:layout_alignLeft="@+id/worksheet_heading"
+                android:layout_alignStart="@+id/worksheet_heading"
+                android:layout_toLeftOf="@+id/relativeLayout6"
+                android:layout_toStartOf="@+id/relativeLayout6" />
+
+            <View
+                android:id="@+id/underline_worksheet_name"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/colorPrimary"
+                android:layout_below="@+id/worksheet_edit_text"
+                android:layout_alignLeft="@+id/worksheet_edit_text"
+                android:layout_alignStart="@+id/worksheet_edit_text"
+                android:layout_alignRight="@+id/worksheet_edit_text"
+                android:layout_alignEnd="@+id/worksheet_edit_text" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>

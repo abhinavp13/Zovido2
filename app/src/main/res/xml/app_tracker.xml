@@ -15,6 +15,18 @@
 
     <screenName name="com.pabhinav.zovido.activities.CallDetailsActivity">Call Details Screen</screenName>
 
-    <!-- TODO : More activities added more the screen addition -->
+    <screenName name="com.pabhinav.zovido.activities.ChangeSheetSettingsActivity">Change Sheet Settings Screen</screenName>
+
+    <screenName name="com.pabhinav.zovido.activities.AboutActivity">About Screen</screenName>
+
+    <screenName name="com.pabhinav.zovido.activities.CallFeedbackActivity">Call Feedback Screen</screenName>
+
+    <screenName name="com.pabhinav.zovido.activities.FeedbackActivity">Feedback Screen</screenName>
+
+    <screenName name="com.pabhinav.zovido.activities.MainActivity">Main Screen</screenName>
+
+    <screenName name="com.pabhinav.zovido.activities.OnBoardActivity">OnBoard Screen</screenName>
+
+    <screenName name="com.pabhinav.zovido.activities.NotificationViewActivity">Notification View Screen</screenName>
 
 </resources>

@@ -38,9 +38,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
         /** Ask For permissions **/
         checkAllPermissions();
-
-        /** TODO: Check for newer versions, keep a new version entry in firebase **/
-        /** TODO: Auto-entry for product, sport, purpose.. changer, using firebase **/
     }
 
     /**  Ask and grant all permissions (for android > 6.0) **/

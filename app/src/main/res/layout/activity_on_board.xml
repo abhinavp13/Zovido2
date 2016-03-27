@@ -1,0 +1,211 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:visibility="gone"
+        app:tabIndicatorColor="@android:color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout_below="@id/tab_layout"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="56dp"
+                android:paddingTop = "14dp"
+                android:paddingBottom="14dp"
+                android:src="@drawable/ic_keyboard_arrow_left_blue_24dp"
+                android:id="@+id/back_image_view" />
+
+            <TextView
+                android:id="@+id/back_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:visibility="visible"
+                android:text = "Back"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/back_image_view"
+                android:layout_toEndOf="@+id/back_image_view" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/next_relative_layout">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="56dp"
+                android:paddingTop = "14dp"
+                android:paddingBottom="14dp"
+                android:src="@drawable/ic_keyboard_arrow_right_blue_24dp"
+                android:layout_toRightOf="@+id/next_text_view"
+                android:layout_toEndOf="@+id/next_text_view"
+                android:id="@+id/next_image_view" />
+
+
+            <TextView
+                android:id="@+id/next_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:text = "Next"
+                android:layout_alignParentTop="true"
+                />
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_skip_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:clickable="true"
+            android:visibility="gone"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:id="@+id/skip_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:text = "Skip"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:id="@+id/skip_fast_forward_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:paddingBottom="14dp"
+                android:src="@drawable/ic_fast_forward_blue_24dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/skip_text_view"
+                android:layout_toEndOf="@+id/skip_text_view" />
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="14dp"
+            android:src="@drawable/ic_done_blue_24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            android:id="@+id/tick_image_view" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout2">
+
+        <ImageView
+            android:id="@+id/tab_one_dot"
+            android:padding="4dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/blue_dot"
+            />
+
+        <ImageView
+            android:id="@+id/tab_two_dot"
+            android:padding="4dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/grey_dot"
+            />
+
+        <ImageView
+            android:id="@+id/tab_three_dot"
+            android:padding="4dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/grey_dot"
+            />
+
+        <ImageView
+            android:id="@+id/tab_four_dot"
+            android:padding="4dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/grey_dot"
+            />
+
+        <ImageView
+            android:id="@+id/tab_five_dot"
+            android:padding="4dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/grey_dot"
+            />
+
+        <ImageView
+            android:id="@+id/tab_six_dot"
+            android:padding="4dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/grey_dot"
+            />
+
+    </LinearLayout>
+</RelativeLayout>

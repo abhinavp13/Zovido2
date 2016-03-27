@@ -56,8 +56,6 @@ public class SQLiteDb extends SQLiteOpenHelper {
 
         ContentValues contentValues = SavedLogTable.getContentValues(savedLogsDataParcel);
         return db.insert(SavedLogTable.getTableName(), null, contentValues);
-
-        /** TODO : very important to capture inserted id and set it to id for saved log **/
     }
 
     /** Update Saved Lag Data **/

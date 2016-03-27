@@ -72,14 +72,6 @@ public class ZovidoApplication extends Application {
         /** Google Analytics **/
         AnalyticsTrackers.initialize(this);
         AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
-
-        /** TODO : compare install previous version, over which install this version and look for db exceptions **/
-
-
-        /** TODO : find a way to only get uploaded data once. When its work is over empty its array list **/
-
-
-        /** TODO : icon changes : call types, no saved log icon, logo of app, call feedback tick and cross. **/
     }
 
     /** Get the application instance **/
@@ -220,8 +212,6 @@ public class ZovidoApplication extends Application {
         /** Save agent name permanently **/
         SharedPreferencesMap sharedPreferencesMap = new SharedPreferencesMap(this);
         sharedPreferencesMap.saveAgentName(agentName);
-
-        /** TODO :  Make call to this method from main activity **/
     }
 
 

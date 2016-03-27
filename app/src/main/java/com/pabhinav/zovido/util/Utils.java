@@ -20,12 +20,6 @@ import com.pabhinav.zovido.pojo.UploadedLogsDataParcel;
  */
 public class Utils {
 
-    /** Hides Keyboard **/
-    public static void hideKeyboard(Context context){
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-    }
-
     /** Permissions denied by user, ask him to allow again or close the app **/
     public static void needPermissionsDialog(final Context context){
 
@@ -274,6 +268,18 @@ public class Utils {
         uploadedLogsDataParcel.setSport(savedLogsDataParcel.getSport());
         uploadedLogsDataParcel.setCallRemarks(savedLogsDataParcel.getCallRemarks());
         return uploadedLogsDataParcel;
+    }
+
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

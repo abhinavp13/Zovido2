@@ -55,29 +55,43 @@ public class UploadServiceAsyncTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
+        if (remoteViews == null
+                || notificationManager == null
+                || notification == null
+                || listfeedUrl == null
+                || context == null) {
+
+            return null;
+        }
+
         /** Update notification **/
         showNormalNotification(remoteViews, "Uploading ...");
         remoteViews.setProgressBar(R.id.firstBar, ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size(), 0, false);
         notificationManager.notify(Constants.notificationId, notification);
 
         SpreadsheetService service = ZovidoApplication.getInstance().getSpreadsheetService();
+        if(service == null){
+            return null;
+        }
+
+        /** Set connect timeout **/
         service.setConnectTimeout(10000);
 
         /** Need to keep a temp copy and loop over it **/
         ArrayList<SavedLogsDataParcel> tempSavedLogsArrayList = new ArrayList<>(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance());
 
         /** Loop through every element in saved logs **/
-        for(int i = 0; i<tempSavedLogsArrayList.size(); i++ ){
+        for (int i = 0; i < tempSavedLogsArrayList.size(); i++) {
             SavedLogsDataParcel savedLogsDataParcel = tempSavedLogsArrayList.get(i);
 
             ListEntry row = getListFeedRow(savedLogsDataParcel);
             try {
                 service.insert(listfeedUrl, row);
-            } catch (IOException | ServiceException e){
+            } catch (IOException | ServiceException e) {
 
                 /** If there was a timeout by spreadsheet or there is no internet connection, show error **/
-                if((e.getStackTrace().toString().toLowerCase().contains("timeout") || e.getMessage().toString().toLowerCase().contains("timeout"))
-                        || !ExceptionInferTypeResponseUtil.isNetworkAvailable(context) ){
+                if ((e.getStackTrace().toString().toLowerCase().contains("timeout") || e.getMessage().toString().toLowerCase().contains("timeout"))
+                        || !ExceptionInferTypeResponseUtil.isNetworkAvailable(context)) {
 
                     /** No Internet connection **/
                     /** update notification **/
@@ -110,8 +124,8 @@ public class UploadServiceAsyncTask extends AsyncTask<Void, Void, Void> {
             /** INSERT into uploaded logs database **/
             ZovidoApplication.getInstance().getSqliteDb().insertUploadedLogData(Utils.transformSavedLogToUploadLog(savedLogsDataParcel));
             /** REMOVE black tick and show blue tick **/
-            for(int k = 0; k < ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().size(); k++ ){
-                if(Utils.equalsCallAndSavedLog(ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().get(k), savedLogsDataParcel)){
+            for (int k = 0; k < ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().size(); k++) {
+                if (Utils.equalsCallAndSavedLog(ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().get(k), savedLogsDataParcel)) {
                     ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().get(k).setShowTick(false);
                     ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().get(k).setUploadedTick(true);
                     break;

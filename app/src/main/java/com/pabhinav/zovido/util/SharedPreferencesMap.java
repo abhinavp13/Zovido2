@@ -3,11 +3,18 @@ package com.pabhinav.zovido.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.pabhinav.zovido.pojo.SavedLogsDataParcel;
+
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author pabhinav
@@ -165,5 +172,85 @@ public class SharedPreferencesMap {
         } else {
             return null;
         }
+    }
+
+    /** Saves the categoryList. categories include : product, purpose, sport **/
+    public void saveCategoryList(String categoryPrefs, String categoryConstant, ArrayList<String> categoryList){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(categoryPrefs, Context.MODE_PRIVATE);
+        if(sharedPreferences != null){
+            Set<String> set = new HashSet<>();
+            set.addAll(categoryList);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            if (editor != null) {
+                editor.remove(categoryConstant).commit();
+                editor.putStringSet(categoryConstant, set);
+                editor.commit();
+            }
+        }
+    }
+
+    /** Load arraylist, given category prefs and constant **/
+    public ArrayList<String> loadCategoryList(String categoryPrefs, String categoryConstant) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(categoryPrefs, Context.MODE_PRIVATE);
+        if(sharedPreferences != null){
+            Set<String> set = sharedPreferences.getStringSet(categoryConstant, null);
+            if(set == null){
+                return null;
+            } else {
+                return new ArrayList<>(set);
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public void saveProductList(ArrayList<String> productList){
+        saveCategoryList(Constants.productCategoryPrefs, Constants.productKey, productList);
+    }
+    public void savePurposeList(ArrayList<String> purposeList){
+        saveCategoryList(Constants.purposeCategoryPrefs, Constants.purposeKey, purposeList);
+    }
+    public void saveSportList(ArrayList<String> sportList){
+        saveCategoryList(Constants.sportCategoryPrefs, Constants.sportKey, sportList);
+    }
+
+    public ArrayList<String> loadProductList(){
+        ArrayList<String> productList = loadCategoryList(Constants.productCategoryPrefs, Constants.productKey);
+        if(productList == null){
+            return new ArrayList<>();
+        }
+        int index = productList.indexOf("Select Product related in Call");
+        if(index != -1){
+            String value = productList.get(index);
+            productList.remove(value);
+            productList.add(0, value);
+        }
+        return productList;
+    }
+    public ArrayList<String> loadPurposeList(){
+        ArrayList<String> purposeList = loadCategoryList(Constants.purposeCategoryPrefs, Constants.purposeKey);
+        if(purposeList == null){
+            return new ArrayList<>();
+        }
+        int index = purposeList.indexOf("Select Purpose for Call");
+        if(index != -1){
+            String value = purposeList.get(index);
+            purposeList.remove(value);
+            purposeList.add(0, value);
+        }
+        return purposeList;
+    }
+    public ArrayList<String> loadSportList(){
+        ArrayList<String> sportList = loadCategoryList(Constants.sportCategoryPrefs, Constants.sportKey);
+        if(sportList == null){
+            return new ArrayList<>();
+        }
+        int index = sportList.indexOf("Select Sport related in Call");
+        if(index != -1){
+            String value = sportList.get(index);
+            sportList.remove(value);
+            sportList.add(0, value);
+        }
+        return sportList;
     }
 }

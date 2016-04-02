@@ -31,6 +31,9 @@ public class CustomFloatingActionButton extends FloatingActionButton {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, FloatingActionButton, defStyleAttr,
                 Widget_Design_FloatingActionButton);
+        if (a == null) {
+            return;
+        }
         this.mSize = a.getInt(FloatingActionButton_fabSize, 0);
         a.recycle();
     }
@@ -43,6 +46,9 @@ public class CustomFloatingActionButton extends FloatingActionButton {
             int offsetVertical = (h - size) / 2;
             int offsetHorizontal = (w - size) / 2;
             MarginLayoutParams params = (MarginLayoutParams) getLayoutParams();
+            if(params == null){
+                return;
+            }
             params.leftMargin = params.leftMargin - offsetHorizontal;
             params.rightMargin = params.rightMargin - offsetHorizontal;
             params.topMargin = params.topMargin - offsetVertical;

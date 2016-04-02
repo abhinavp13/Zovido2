@@ -58,4 +58,10 @@ public class Constants {
     public static final String listfeedURL = "LIST_FEED_URL";
     public static final String spreadsheetService = "SPREAD_SHEET_SERVICE";
     public static final String savedUIUpdate = "com.pabhinav.savedlog.ui.update";
+    public static final String productCategoryPrefs = "Zovido.productCategoryPrefs";
+    public static final String purposeCategoryPrefs = "Zovido.purposeCategoryPrefs";
+    public static final String sportCategoryPrefs = "Zovido.sportCategoryPrefs";
+    public static final String productKey = "PRODUCT_KEY";
+    public static final String purposeKey = "PURPOSE_KEY";
+    public static final String sportKey = "SPORT_KEY";
 }

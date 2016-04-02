@@ -123,7 +123,8 @@ public class CallFeedbackActivity extends AppCompatActivity implements AdapterVi
                 Utils.getStringFromBundle(
                         savedInstanceState,
                         getIntent().getExtras(),
-                        Constants.product, "Select Product related in Call")
+                        Constants.product,
+                        "Select Product related in Call")
                 )
         );
 
@@ -162,13 +163,13 @@ public class CallFeedbackActivity extends AppCompatActivity implements AdapterVi
     private void setUpPurposeSpinnerAdapter(){
 
         /** Purpose **/
-        addSpinnerAdapter(R.id.purpose_spinner, Arrays.asList(getResources().getStringArray(R.array.purpose)));
+        addSpinnerAdapter(R.id.purpose_spinner, ZovidoApplication.getInstance().getPurposeList());
 
         /** Product **/
-        addSpinnerAdapter(R.id.product_spinner, Arrays.asList(getResources().getStringArray(R.array.product)));
+        addSpinnerAdapter(R.id.product_spinner, ZovidoApplication.getInstance().getProductList());
 
         /** Sport **/
-        addSpinnerAdapter(R.id.sport_spinner, Arrays.asList(getResources().getStringArray(R.array.sport)));
+        addSpinnerAdapter(R.id.sport_spinner, ZovidoApplication.getInstance().getSportList());
     }
 
     /** Add Spinners for this activity **/
@@ -355,17 +356,17 @@ public class CallFeedbackActivity extends AppCompatActivity implements AdapterVi
 
     /** Updates the value for each category **/
     private void updateCategory(String value){
-        List<String> purposeList = Arrays.asList(getResources().getStringArray(R.array.purpose));
-        List<String> productList = Arrays.asList(getResources().getStringArray(R.array.product));
-        List<String> sportList = Arrays.asList(getResources().getStringArray(R.array.sport));
+        List<String> purposeList = ZovidoApplication.getInstance().getPurposeList();
+        List<String> productList = ZovidoApplication.getInstance().getProductList();
+        List<String> sportList = ZovidoApplication.getInstance().getSportList();
 
-        if(purposeList.indexOf(value.trim()) != -1){
+        if(purposeList.indexOf(value) != -1){
             purpose = value;
         }
-        if(productList.indexOf(value.trim()) != -1){
+        if(productList.indexOf(value) != -1){
             product = value;
         }
-        if(sportList.indexOf(value.trim()) != -1){
+        if(sportList.indexOf(value) != -1){
             sport = value;
         }
     }

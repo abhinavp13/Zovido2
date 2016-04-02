@@ -48,7 +48,16 @@ public class SavedLogsRecyclerViewAdapter extends RecyclerView.Adapter<SavedLogs
         
         SavedLogsDataParcel savedLogsDataParcel = ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().get(position);
 
-        if(savedLogsDataParcel == null){
+        if(savedLogsDataParcel == null || holder == null){
+            return;
+        }
+        if(holder.name == null
+                || holder.phoneNumber == null
+                || holder.timestamp == null
+                || holder.callDuration == null
+                || holder.purpose == null
+                || holder.product == null
+                || holder.sport == null){
             return;
         }
         
@@ -108,12 +117,10 @@ public class SavedLogsRecyclerViewAdapter extends RecyclerView.Adapter<SavedLogs
 
     @Override
     public int getItemCount() {
-        int size = 0;
-        if(ZovidoApplication.getInstance() == null){
-            return 0;
+        if(ZovidoApplication.getInstance() != null){
+            return ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size();
         }
-        size =  ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size();
-        return size;
+        return 0;
     }
 
     public static class SavedLogsDataParcelHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -205,8 +212,8 @@ public class SavedLogsRecyclerViewAdapter extends RecyclerView.Adapter<SavedLogs
                 }
 
                 /** update saved log counter in drawer **/
-                if(v.getContext() != null || v.getContext() instanceof CallDetailsActivity){
-                    ZovidoApplication.getInstance().getDrawerNavigationViewElements((CallDetailsActivity) v.getContext()).getSavedLogCounter().setText(String.valueOf(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size()));
+                if(v.getContext() != null){
+                    ((TextView)((CallDetailsActivity) v.getContext()).findViewById(R.id.saved_count_text_view)).setText(String.valueOf(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size()));
                 }
 
                 /** Update Adapter **/
@@ -224,17 +231,17 @@ public class SavedLogsRecyclerViewAdapter extends RecyclerView.Adapter<SavedLogs
                         ((Activity)v.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                     }
                 }
-
-                return;
             }
 
             /** Else it is edit settings clicked **/
-            if(!toggleEditSettings){
-                editLinearLayout.setVisibility(View.VISIBLE);
-            } else {
-                editLinearLayout.setVisibility(View.GONE);
+            if(editLinearLayout != null) {
+                if (!toggleEditSettings) {
+                    editLinearLayout.setVisibility(View.VISIBLE);
+                } else {
+                    editLinearLayout.setVisibility(View.GONE);
+                }
+                toggleEditSettings = !toggleEditSettings;
             }
-            toggleEditSettings = !toggleEditSettings;
         }
     }
 

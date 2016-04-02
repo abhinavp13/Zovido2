@@ -38,7 +38,14 @@ public class OnBoardHelper {
      */
     public void setupTabs(){
 
+        if(onBoardActivity == null){
+            return;
+        }
+
         TabLayout tabLayout = (TabLayout) onBoardActivity.findViewById(R.id.tab_layout);
+        if(tabLayout == null){
+            return;
+        }
         tabLayout.addTab(tabLayout.newTab().setText("Tab One"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab Two"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab Three"));
@@ -48,10 +55,14 @@ public class OnBoardHelper {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) onBoardActivity.findViewById(R.id.pager);
+        if(viewPager == null){
+            return;
+        }
         OnBoardPagerAdapter onBoardPagerAdapter = new OnBoardPagerAdapter(
                 onBoardActivity.getSupportFragmentManager(),
                 tabLayout.getTabCount()
         );
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(onBoardPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -194,7 +205,8 @@ public class OnBoardHelper {
                     || tabThreeDot == null
                     || tabFourDot == null
                     || tabFiveDot == null
-                    || tabSixDot == null){
+                    || tabSixDot == null
+                    || onBoardActivity == null){
                 return;
             }
 
@@ -260,6 +272,21 @@ public class OnBoardHelper {
          * Register Click events for views
          */
         public void registerClickEvents(){
+
+            if(nextTextView == null
+                    || skipRelativeView == null
+                    || backTextView == null
+                    || tickImageView == null
+                    || skipTextView == null
+                    || skipFastForward == null
+                    || skipRelativeView == null
+                    || nextImageView == null
+                    || nextRelativeLayout == null
+                    || backImageView == null
+                    || backRelativeLayout == null){
+                return;
+            }
+
             nextTextView.setOnClickListener(this);
             skipRelativeView.setOnClickListener(this);
             backTextView.setOnClickListener(this);
@@ -334,6 +361,9 @@ public class OnBoardHelper {
                 return;
             }
             AppCompatEditText appCompatEditText = (AppCompatEditText) onBoardActivity.findViewById(R.id.name_edit_text);
+            if(appCompatEditText == null){
+                return;
+            }
             if(appCompatEditText.getText() == null || appCompatEditText.getText().length() == 0){
                 TextView textView = (TextView)onBoardActivity.findViewById(R.id.may_i_know_text_view);
                 textView.setText("Please Enter Your Name");

@@ -5,13 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.TextView;
 
+import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.activities.CallDetailsActivity;
 import com.pabhinav.zovido.adpater.CallLogsRecyclerViewAdapter;
 import com.pabhinav.zovido.application.ZovidoApplication;
-import com.pabhinav.zovido.drawer.NavigationDrawerElements;
 import com.pabhinav.zovido.pojo.CallLogsDataParcel;
 import com.pabhinav.zovido.pojo.SavedLogsDataParcel;
-import com.pabhinav.zovido.service.FetchUploadedLogsFromDbIntentService;
 import com.pabhinav.zovido.util.Utils;
 
 /**
@@ -77,14 +76,11 @@ public class FetchCallLogsReceiver extends BroadcastReceiver {
     private void updateDrawerRecentLogsCount(){
 
         if(ZovidoApplication.getInstance() != null && callDetailsActivity != null){
-            NavigationDrawerElements navigationDrawerElements = ZovidoApplication.getInstance().getDrawerNavigationViewElements(callDetailsActivity);
-            if(navigationDrawerElements != null){
-                TextView recentLogCounter = navigationDrawerElements.getRecentLogCounter();
-                if (recentLogCounter != null) {
-                    recentLogCounter.setText(String.valueOf(
-                                    ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().size())
-                    );
-                }
+            TextView recentLogCounter = (TextView) callDetailsActivity.findViewById(R.id.recent_count_text_view);
+            if (recentLogCounter != null) {
+                recentLogCounter.setText(String.valueOf(
+                                ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().size())
+                );
             }
         }
     }

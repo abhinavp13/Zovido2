@@ -44,8 +44,6 @@
         android:scrollbars="vertical" />
 
 
-
-
     <!-- Floating action menu implementation -->
 
     <View
@@ -54,84 +52,68 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:onClick="uploadClicked"
-        android:background="#55000000" />
+        android:background="#333F51B5" />
 
-    <com.pabhinav.zovido.customviews.CustomFloatingActionButton
-        android:id="@+id/fab_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
-        app:backgroundTint="@color/colorPrimary"
+    <ImageView
         android:onClick="uploadClicked"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/ic_file_upload_white_24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/upload_fab"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        />
+        android:layout_alignParentEnd="true"
+        android:id="@+id/upload_menu_button" />
 
-    <com.pabhinav.zovido.customviews.CustomFloatingActionButton
-        android:id="@+id/export_to_local_storage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="mini"
-        android:visibility="gone"
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="6dp"
         android:onClick="localExportClicked"
-        app:backgroundTint="@color/colorPrimary"
-        android:layout_above="@id/fab_upload"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="24dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/export_file"
-        />
-
-    <com.pabhinav.zovido.customviews.CustomFloatingActionButton
-        android:id="@+id/export_to_cloud_storage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="mini"
-        android:layout_marginBottom="16dp"
-        app:borderWidth="0dp"
+        android:src="@drawable/upload_local"
         android:visibility="gone"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_above="@+id/upload_menu_button"
+        android:layout_alignLeft="@+id/upload_menu_button"
+        android:layout_alignStart="@+id/upload_menu_button"
+        android:id="@+id/upload_local_fab" />
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:visibility="gone"
+        android:padding="6dp"
         android:onClick="cloudExportClicked"
-        app:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/cloud_export"
-        android:layout_above="@id/export_to_local_storage"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        />
+        android:src="@drawable/upload_cloud"
+        android:layout_above="@+id/upload_local_fab"
+        android:layout_alignLeft="@+id/upload_local_fab"
+        android:layout_alignStart="@+id/upload_local_fab"
+        android:id="@+id/upload_cloud_fab" />
 
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="localExportClicked"
         android:gravity="center"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:layout_margin="6dp"
-        android:layout_alignBottom="@+id/export_to_local_storage"
-        android:layout_toStartOf="@+id/export_to_local_storage"
-        android:layout_toLeftOf="@+id/export_to_local_storage"
-        android:layout_alignTop="@+id/export_to_local_storage"
-        >
+        android:visibility="gone"
+        android:onClick="cloudExportClicked"
+        android:id="@+id/relative_layout_export_to_spread_sheet_text"
+        android:layout_alignBottom="@+id/upload_cloud_fab"
+        android:layout_toLeftOf="@+id/upload_cloud_fab"
+        android:layout_toStartOf="@+id/upload_cloud_fab"
+        android:layout_alignTop="@+id/upload_cloud_fab">
 
         <TextView
-            android:id="@+id/text_for_export_to_local_storage"
-            android:background="@drawable/fab_menu_text_background"
-            android:onClick="localExportClicked"
-            android:padding="2dp"
-            android:visibility="gone"
+            android:elevation="1dp"
+            android:background="@drawable/menu_item_background"
+            android:onClick="cloudExportClicked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text = "Export To Local Storage"
+            android:textColor="@android:color/white"
+            android:padding="4dp"
+            android:text = "Export To SpreadSheet"
             />
 
     </RelativeLayout>
@@ -140,31 +122,27 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="cloudExportClicked"
+        android:layout_alignBottom="@+id/upload_local_fab"
+        android:layout_toLeftOf="@+id/upload_local_fab"
+        android:layout_toStartOf="@+id/upload_local_fab"
         android:gravity="center"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:layout_margin="8dp"
-        android:background="@android:color/transparent"
-        android:layout_alignBottom="@+id/export_to_cloud_storage"
-        android:layout_toStartOf="@+id/export_to_cloud_storage"
-        android:layout_toLeftOf="@+id/export_to_cloud_storage"
-        android:layout_alignTop="@+id/export_to_cloud_storage"
-        >
-
+        android:visibility="gone"
+        android:id="@+id/relative_layout_export_to_local_storage_text"
+        android:onClick="cloudExportClicked"
+        android:layout_alignTop="@+id/upload_local_fab">
 
         <TextView
-            android:id="@+id/text_for_export_to_drive"
-            android:background="@drawable/fab_menu_text_background"
+            android:elevation="1dp"
+            android:background="@drawable/menu_item_background"
             android:onClick="cloudExportClicked"
-            android:visibility="gone"
-            android:padding="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text = "Export To Drive"
-            android:gravity="center" />
+            android:textColor="@android:color/white"
+            android:padding="4dp"
+            android:text = "Export To Local Storage"
+            />
 
     </RelativeLayout>
+
 
 </RelativeLayout>

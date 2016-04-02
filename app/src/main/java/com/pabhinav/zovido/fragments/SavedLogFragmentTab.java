@@ -12,25 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.activities.CallDetailsActivity;
-import com.pabhinav.zovido.adpater.CallLogsRecyclerViewAdapter;
 import com.pabhinav.zovido.adpater.SavedLogsRecyclerViewAdapter;
 import com.pabhinav.zovido.alertdialogs.ZovidoAlertMessageDialog;
 import com.pabhinav.zovido.application.ZovidoApplication;
-import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.asynctasks.ListFeedSpreadsheetAsyncTask;
-import com.pabhinav.zovido.asynctasks.UploadServiceAsyncTask;
 import com.pabhinav.zovido.pojo.ExceptionInferType;
 import com.pabhinav.zovido.receiver.FetchSavedLogsFromDbReceiver;
 import com.pabhinav.zovido.receiver.UploadedSavedLogReceiver;
-import com.pabhinav.zovido.service.FetchCallLogsIntentService;
 import com.pabhinav.zovido.service.FetchSavedLogsFromDbIntentService;
 import com.pabhinav.zovido.util.Constants;
 import com.pabhinav.zovido.util.DirectoryChoserDialog;
 import com.pabhinav.zovido.util.ExcelCreator;
 import com.pabhinav.zovido.util.ExceptionInferTypeResponseUtil;
+import com.pabhinav.zovido.util.ZLog;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -66,8 +63,15 @@ public class SavedLogFragmentTab extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_saved_log, container, false);
 
+        if(rootView == null){
+            return null;
+        }
+
         /** Setup recycler view and its adapter **/
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.saved_logs_recycler_view);
+        if(recyclerView == null){
+            return null;
+        }
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         savedLogsRecyclerViewAdapter = new SavedLogsRecyclerViewAdapter(getActivity(), rootView);
@@ -85,7 +89,7 @@ public class SavedLogFragmentTab extends Fragment {
         loadingTextView = (TextView)(rootView.findViewById(R.id.saved_log_loading_text_view_behind));
         emptyImageView = (ImageView)(rootView.findViewById(R.id.empty_image));
         avLoadingIndicator = rootView.findViewById(R.id.avloadingIndicatorViewSavedLog);
-        savedCounter = ZovidoApplication.getInstance().getDrawerNavigationViewElements((CallDetailsActivity)getActivity()).getSavedLogCounter();
+        savedCounter = (TextView)getActivity().findViewById(R.id.saved_count_text_view);
 
         return rootView;
     }
@@ -98,11 +102,20 @@ public class SavedLogFragmentTab extends Fragment {
             return;
         }
 
-        /** Notify data set changed, due to changes caused by feed back activity **/
-        savedLogsRecyclerViewAdapter.notifyDataSetChanged();
+        if(savedLogsRecyclerViewAdapter != null) {
+            /** Notify data set changed, due to changes caused by feed back activity **/
+            savedLogsRecyclerViewAdapter.notifyDataSetChanged();
+        }
 
         /** Update loading views **/
-        if(savedLogsRecyclerViewAdapter.getItemCount() > 0){
+        if(savedLogsRecyclerViewAdapter != null && savedLogsRecyclerViewAdapter.getItemCount() > 0){
+
+            if(loadingTextView == null
+                    || emptyImageView == null
+                    || avLoadingIndicator == null
+                    || savedCounter == null){
+                return;
+            }
 
             /** Loading Views visibility **/
             loadingTextView.setText("Loading Saved Logs");
@@ -114,13 +127,16 @@ public class SavedLogFragmentTab extends Fragment {
             savedCounter.setText(String.valueOf(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size()));
         }
 
-
         /** Tracking the screen view **/
         ZovidoApplication.getInstance().trackScreenView("SavedLog Fragment");
     }
 
     /** Registers call log fetching service and start it **/
     private void registerAndStartSavedLogFetch(){
+
+        if(getActivity() == null){
+            return;
+        }
 
         IntentFilter filter = new IntentFilter(Constants.PROCESS_RESPONSE_SAVED_LOG);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -132,6 +148,10 @@ public class SavedLogFragmentTab extends Fragment {
 
     /** Register uploaded saved log receiver **/
     private void registerUploadedSavedLogReceiver(){
+
+        if(getActivity() == null){
+            return;
+        }
 
         IntentFilter filter = new IntentFilter(Constants.savedUIUpdate);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -175,9 +195,14 @@ public class SavedLogFragmentTab extends Fragment {
     /** local export required **/
     public void localExport(){
 
+        if(getActivity() == null){
+            return;
+        }
+
         /** Try to get the worksheet labels **/
         Label[][] labels = null;
-        final View fabView = getActivity().findViewById(R.id.fab_upload);
+
+        final View fabView = getActivity().findViewById(R.id.upload_menu_button);
         try {
             labels = ExcelCreator.createExcelLabels();
         } catch (Exception e){
@@ -194,6 +219,10 @@ public class SavedLogFragmentTab extends Fragment {
             if(ZovidoApplication.getInstance() != null){
                 ZovidoApplication.getInstance().trackException(e);
             }
+
+            ZLog.e(getActivity(), "Exception while creating the labels : " + e.getStackTrace().toString());
+            e.printStackTrace();
+
             return;
         }
 
@@ -205,7 +234,7 @@ public class SavedLogFragmentTab extends Fragment {
 
                 long timeInMillis = System.currentTimeMillis();
                 String date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.US).format(new Date(timeInMillis));
-                date = date.replace(" ","::");
+                date = date.replaceAll("[ :/]","_");
                 File file = new File(chosenDir, "Zovido-"+ date + ".xls");
 
                 try {
@@ -232,6 +261,11 @@ public class SavedLogFragmentTab extends Fragment {
 
                     /** Unable to write **/
                     final Snackbar snackBar = Snackbar.make(fabView, "Unable to write in the directory specified", Snackbar.LENGTH_LONG);
+
+                    ZLog.e(getActivity(), " Exception caught while writing to local storage : " + e.getStackTrace().toString());
+                    e.printStackTrace();
+
+
                     snackBar.setAction("Dismiss", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -253,8 +287,12 @@ public class SavedLogFragmentTab extends Fragment {
     /** export to cloud, (spreadsheet for now) **/
     public void cloudExport(){
 
+        if(getActivity() == null){
+            return;
+        }
+
         /** Started Uploading **/
-        final View fabView = getActivity().findViewById(R.id.fab_upload);
+        final View fabView = getActivity().findViewById(R.id.upload_menu_button);
         final Snackbar snackBar = Snackbar.make(fabView, "Uploading Started ... ", Snackbar.LENGTH_LONG);
         snackBar.setAction("Dismiss", new View.OnClickListener() {
             @Override

@@ -51,6 +51,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         int writeExternalStorage = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int readLogs = ContextCompat.checkSelfPermission(this,Manifest.permission.READ_LOGS);
 
+        /** List all the permissions not granted **/
         List<String> permissions = new ArrayList<String>();
         if (readCallLog != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.READ_CALL_LOG );

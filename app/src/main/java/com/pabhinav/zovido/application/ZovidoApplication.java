@@ -1,7 +1,6 @@
 package com.pabhinav.zovido.application;
 
-import android.app.Application;
-import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import com.firebase.client.Firebase;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -13,20 +12,20 @@ import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.pabhinav.zovido.BuildConfig;
 import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.dao.SQLiteDb;
-import com.pabhinav.zovido.drawer.NavigationDrawerElements;
-import com.pabhinav.zovido.pojo.SavedLogsDataParcel;
 import com.pabhinav.zovido.pojo.CallLogsDataParcel;
+import com.pabhinav.zovido.pojo.SavedLogsDataParcel;
 import com.pabhinav.zovido.pojo.UploadedLogsDataParcel;
+import com.pabhinav.zovido.util.ACRAReportSender;
 import com.pabhinav.zovido.util.AnalyticsTrackers;
+import com.pabhinav.zovido.util.GoogleCredentialUtils;
+import com.pabhinav.zovido.util.SharedPreferencesMap;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
-import com.pabhinav.zovido.util.ACRAReportSender;
-import com.pabhinav.zovido.util.GoogleCredentialUtils;
-import com.pabhinav.zovido.util.SharedPreferencesMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author pabhinav
@@ -40,38 +39,45 @@ import java.util.ArrayList;
         resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, // optional. When defined, adds a user text field input with this text resource as a label
         resDialogOkToast = R.string.crash_dialog_ok_toast// optional. displays a Toast message when the user accepts to send a report.
 )
-public class ZovidoApplication extends Application {
+public class ZovidoApplication extends MultiDexApplication {
 
     private  static ZovidoApplication mInstance;
     private  ArrayList<UploadedLogsDataParcel> uploadedLogsDataParcelArrayList;
     private  ArrayList<SavedLogsDataParcel> savedLogsDataParcelArrayList;
     private  ArrayList<CallLogsDataParcel> callLogsDataParcelArrayList;
     private  String agentName;
-    private  NavigationDrawerElements navigationDrawerElements;
     private  SQLiteDb sqLiteDb;
     private  boolean loadingTick = false;
     private  GoogleCredential googleCredential;
     private  String spreadsheetKey;
     private  String worksheetName;
     private  SpreadsheetService spreadsheetService;
+    private  ArrayList<String> productList;
+    private  ArrayList<String> purposeList;
+    private  ArrayList<String> sportList;
 
     @Override
     public void onCreate() {
 
         /** Initialize ACRA error reports sending library **/
-        ACRA.init(this);
-        ACRAReportSender yourSender = new ACRAReportSender();
-        ACRA.getErrorReporter().setReportSender(yourSender);
+        try {
+            ACRA.init(this);
+            ACRAReportSender yourSender = new ACRAReportSender();
+            ACRA.getErrorReporter().setReportSender(yourSender);
+        } catch (Throwable ignored){ /** Nothing can be done at such early stage **/}
 
         super.onCreate();
         mInstance = this;
 
-        /** Initialize firebase **/
-        Firebase.setAndroidContext(this);
+        try {
+            /** Initialize firebase **/
+            Firebase.setAndroidContext(this);
 
-        /** Google Analytics **/
-        AnalyticsTrackers.initialize(this);
-        AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+            /** Google Analytics **/
+            AnalyticsTrackers.initialize(this);
+            AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+
+        } catch (Throwable ignored){/** Nothing can be done at such early stage **/}
     }
 
     /** Get the application instance **/
@@ -87,8 +93,12 @@ public class ZovidoApplication extends Application {
 
     /** Get google analytics tracker instance **/
     public synchronized Tracker getGoogleAnalyticsTracker() {
-        AnalyticsTrackers analyticsTrackers = AnalyticsTrackers.getInstance();
-        return analyticsTrackers.get(AnalyticsTrackers.Target.APP);
+        try {
+            AnalyticsTrackers analyticsTrackers = AnalyticsTrackers.getInstance();
+            return analyticsTrackers.get(AnalyticsTrackers.Target.APP);
+        }catch (Throwable ignored){
+            return null;
+        }
     }
 
     /***
@@ -97,15 +107,17 @@ public class ZovidoApplication extends Application {
      * @param screenName screen name to be displayed on GA dashboard
      */
     public void trackScreenView(String screenName) {
-        Tracker t = getGoogleAnalyticsTracker();
+        try {
+            Tracker t = getGoogleAnalyticsTracker();
 
-        // Set screen name.
-        t.setScreenName(screenName);
+            // Set screen name.
+            t.setScreenName(screenName);
 
-        // Send a screen view.
-        t.send(new HitBuilders.ScreenViewBuilder().build());
+            // Send a screen view.
+            t.send(new HitBuilders.ScreenViewBuilder().build());
 
-        GoogleAnalytics.getInstance(this).dispatchLocalHits();
+            GoogleAnalytics.getInstance(this).dispatchLocalHits();
+        } catch (Throwable ignored){}
     }
 
     /***
@@ -114,17 +126,19 @@ public class ZovidoApplication extends Application {
      * @param e exception to be tracked
      */
     public void trackException(Exception e) {
-        if (e != null) {
-            Tracker t = getGoogleAnalyticsTracker();
+        try {
+            if (e != null) {
+                Tracker t = getGoogleAnalyticsTracker();
 
-            t.send(new HitBuilders.ExceptionBuilder()
-                            .setDescription(
-                                    new StandardExceptionParser(this, null)
-                                            .getDescription(Thread.currentThread().getName(), e))
-                            .setFatal(false)
-                            .build()
-            );
-        }
+                t.send(new HitBuilders.ExceptionBuilder()
+                                .setDescription(
+                                        new StandardExceptionParser(this, null)
+                                                .getDescription(Thread.currentThread().getName(), e))
+                                .setFatal(false)
+                                .build()
+                );
+            }
+        }catch (Throwable ignored){}
     }
 
     /***
@@ -135,10 +149,12 @@ public class ZovidoApplication extends Application {
      * @param label    label
      */
     public void trackEvent(String category, String action, String label) {
-        Tracker t = getGoogleAnalyticsTracker();
+        try {
+            Tracker t = getGoogleAnalyticsTracker();
 
-        // Build and send an Event.
-        t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).build());
+            // Build and send an Event.
+            t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).build());
+        } catch (Throwable ignored){}
     }
 
 
@@ -263,21 +279,60 @@ public class ZovidoApplication extends Application {
 
 
 
+    /** Category list fetch **/
+    public void setProductList(ArrayList<String> productList){
+        this.productList = new ArrayList<>(productList);
+        
+        /** Save product List **/
+        SharedPreferencesMap sharedPreferencesMap = new SharedPreferencesMap(this);
+        sharedPreferencesMap.saveProductList(productList);
+    }
+    public void setPurposeList(ArrayList<String> purposeList){
+        this.purposeList = new ArrayList<>(purposeList);
 
-    /** Get navigation view elements **/
-    public synchronized NavigationDrawerElements getDrawerNavigationViewElements(Context context){
+        /** Save purpose List **/
+        SharedPreferencesMap sharedPreferencesMap = new SharedPreferencesMap(this);
+        sharedPreferencesMap.savePurposeList(purposeList);
+    }
+    public void setSportList(ArrayList<String> sportList){
+        this.sportList = new ArrayList<>(sportList);
 
-        /** Context must have navigation view in it, else exception is thrown **/
-        if (navigationDrawerElements == null) {
-            try {
-                navigationDrawerElements = new NavigationDrawerElements(context);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-        return navigationDrawerElements;
+        /** Save sport List **/
+        SharedPreferencesMap sharedPreferencesMap = new SharedPreferencesMap(this);
+        sharedPreferencesMap.saveSportList(sportList);
     }
 
+    /** Fetch the category list **/
+    public ArrayList<String> getProductList(){
+        if(productList == null || productList.size() == 0){
+            SharedPreferencesMap sharedPreferencesMap = new SharedPreferencesMap(this);
+            productList = new ArrayList<>(sharedPreferencesMap.loadProductList());
+        }
+        if(productList == null || productList.size() == 0){
+            productList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.product)));
+        }
+        return productList;
+    }
+    public ArrayList<String> getPurposeList(){
+        if(purposeList == null || purposeList.size() == 0){
+            SharedPreferencesMap sharedPreferencesMap = new SharedPreferencesMap(this);
+            purposeList = new ArrayList<>(sharedPreferencesMap.loadPurposeList());
+        }
+        if(purposeList == null || purposeList.size() == 0){
+            purposeList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.purpose)));
+        }
+        return purposeList;
+    }
+    public ArrayList<String> getSportList(){
+        if(sportList == null || sportList.size() == 0){
+            SharedPreferencesMap sharedPreferencesMap = new SharedPreferencesMap(this);
+            sportList = new ArrayList<>(sharedPreferencesMap.loadSportList());
+        }
+        if(sportList == null || sportList.size() == 0){
+            sportList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.sport)));
+        }
+        return sportList;
+    }
 
 
 

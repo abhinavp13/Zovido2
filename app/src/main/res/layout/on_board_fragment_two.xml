@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_marginTop="56dp"
         android:layout_height="240dp"
-        android:src="@drawable/phone_frame_5"
+        android:src="@drawable/phone_frame_8"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:layout_alignParentTop="true"

@@ -73,6 +73,11 @@ public class FetchSavedLogsFromDbReceiver extends BroadcastReceiver {
             }
         }
 
+        /** update saved log counter in drawer **/
+        if(callDetailsActivity != null){
+            ((TextView)(callDetailsActivity.findViewById(R.id.saved_count_text_view))).setText(String.valueOf(ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size()));
+        }
+
         /** Update adapter **/
         if(savedLogsRecyclerViewAdapter != null){
             savedLogsRecyclerViewAdapter.notifyDataSetChanged();

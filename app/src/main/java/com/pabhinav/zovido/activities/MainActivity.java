@@ -1,11 +1,10 @@
 package com.pabhinav.zovido.activities;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,8 +17,6 @@ import android.widget.TextView;
 
 import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.application.ZovidoApplication;
-import com.pabhinav.zovido.customviews.CustomFloatingActionButton;
-import com.pabhinav.zovido.customviews.FlickerAnimationView;
 import com.pabhinav.zovido.customviews.SceneAnimationView;
 import com.pabhinav.zovido.util.FlickerAnimationDrawables;
 
@@ -33,23 +30,42 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        /** Start Flicker animation **/
-        new SceneAnimationView((ImageView) findViewById(R.id.gif_animation_view), new FlickerAnimationDrawables().getSplashDrawables(), 35);
-
-        /** Set the status bar color **/
-        setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-
         /** View required for animations **/
         TextView welcomeTextView = (TextView)findViewById(R.id.welcome_text_view);
-        CustomFloatingActionButton forwardFab = (CustomFloatingActionButton) findViewById(R.id.fab_forward);
         final TextView appName = (TextView)findViewById(R.id.textView3);
-        TextView appSubName = (TextView) findViewById(R.id.textView7);
-        LinearLayout linearLayoutForward = (LinearLayout) findViewById(R.id.linear_layout_forward);
+        final TextView appSubName = (TextView) findViewById(R.id.textView7);
+        final LinearLayout linearLayoutForward = (LinearLayout) findViewById(R.id.linear_layout_forward);
 
         /** Make them invisible for now **/
         appName.setVisibility(View.INVISIBLE);
         appSubName.setVisibility(View.INVISIBLE);
         linearLayoutForward.setVisibility(View.INVISIBLE);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                ImageView gifImage = (ImageView) findViewById(R.id.gif_animation_view);
+                if(gifImage != null) {
+
+                    /** Start Flicker animation **/
+                    new SceneAnimationView(gifImage, new FlickerAnimationDrawables().getSplashDrawables(), 20).setSceneAnimationEndListener(new SceneAnimationView.SceneAnimationEndListener() {
+                        @Override
+                        public void onEnd() {
+                            postHandlerForVisibleAnimation(appName);
+                            postHandlerForVisibleAnimation(appSubName);
+                            postHandlerForVisibleAnimation(linearLayoutForward);
+                        }
+                    });
+                }
+            }
+        }, 500);
+
+
+
+        /** Set the status bar color **/
+        setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
 
         if(ZovidoApplication.getInstance() == null){
             return;
@@ -62,35 +78,21 @@ public class MainActivity extends AppCompatActivity {
         } else {
             welcomeTextView.setText("Hi, " + agentName);
         }
-
-        /** TODO  CALL BACK FROM SCENE ANIMATION, INSTEAD OF BELOW WAITING**/
-        /** First Animation Time for which the 'invisible' views gets visible **/
-        final int firstAnimationTime = 2000;
-        postHandlerForVisibleAnimation(appName, firstAnimationTime);
-        postHandlerForVisibleAnimation(appSubName, firstAnimationTime);
-        postHandlerForVisibleAnimation(linearLayoutForward, firstAnimationTime);
     }
 
     /**
-     * Creates an handler object for delayed animation effect (fade In).
+     * Creates an delayed animation effect (fade In).
      *
      * @param view on which delayed animation has to be performed.
-     * @param timeInMillis delay time
      */
-    public void postHandlerForVisibleAnimation(final View view, int timeInMillis){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(view != null) {
-                    Animation fadeIn = new AlphaAnimation(0, 1);
-                    fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
-                    fadeIn.setDuration(500);
-                    fadeIn.setFillAfter(true);
-                    view.startAnimation(fadeIn);
-                }
-            }
-        }, timeInMillis);
+    public void postHandlerForVisibleAnimation(final View view){
+        if(view != null) {
+            Animation fadeIn = new AlphaAnimation(0, 1);
+            fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+            fadeIn.setDuration(500);
+            fadeIn.setFillAfter(true);
+            view.startAnimation(fadeIn);
+        }
     }
 
 

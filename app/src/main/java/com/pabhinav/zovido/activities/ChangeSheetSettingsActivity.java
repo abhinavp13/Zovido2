@@ -98,7 +98,7 @@ public class ChangeSheetSettingsActivity extends AppCompatActivity {
             }
 
             if(isSettingsIcon){
-                icon.setImageDrawable(changeSheetSettingsActivity.getResources().getDrawable(R.drawable.tick_blue));
+                icon.setImageDrawable(changeSheetSettingsActivity.getResources().getDrawable(R.drawable.ic_done_blue_24dp));
                 underline.setVisibility(View.VISIBLE);
                 enableEditText(spreadsheetEditText);
             } else {
@@ -182,7 +182,7 @@ public class ChangeSheetSettingsActivity extends AppCompatActivity {
             }
 
             if(isSettingsIcon){
-                icon.setImageDrawable(changeSheetSettingsActivity.getResources().getDrawable(R.drawable.tick_blue));
+                icon.setImageDrawable(changeSheetSettingsActivity.getResources().getDrawable(R.drawable.ic_done_blue_24dp));
                 underline.setVisibility(View.VISIBLE);
                 enableEditText(worksheetEditText);
             } else {

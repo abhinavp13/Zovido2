@@ -1,11 +1,9 @@
 package com.pabhinav.zovido.activities.activityhelpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
 import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.activities.AboutActivity;
@@ -15,6 +13,7 @@ import com.pabhinav.zovido.activities.FeedbackActivity;
 import com.pabhinav.zovido.adpater.CallDetailsPagerAdapter;
 import com.pabhinav.zovido.fragments.CallLogFragmentTab;
 import com.pabhinav.zovido.fragments.SavedLogFragmentTab;
+import com.pabhinav.zovido.util.CategoryFirebaseListener;
 
 /**
  * @author pabhinav
@@ -27,6 +26,10 @@ public class CallDetailsHelper {
     /** Constructor for this class **/
     public CallDetailsHelper(Context context){
         this.callDetailsActivity = (CallDetailsActivity)context;
+
+        /** Start listening to category changes **/
+        CategoryFirebaseListener categoryFirebaseListener = new CategoryFirebaseListener();
+        categoryFirebaseListener.createCategoryFirebaseListeners();
     }
 
     /**
@@ -34,12 +37,26 @@ public class CallDetailsHelper {
      */
     public void setupTabs(){
 
+        if(callDetailsActivity == null){
+            return;
+        }
+
         TabLayout tabLayout = (TabLayout) callDetailsActivity.findViewById(R.id.tab_layout);
+
+        if(tabLayout == null){
+            return;
+        }
+
         tabLayout.addTab(tabLayout.newTab().setText("Recent Logs"));
         tabLayout.addTab(tabLayout.newTab().setText("Saved Logs"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) callDetailsActivity.findViewById(R.id.pager);
+
+        if(viewPager == null){
+            return;
+        }
+
         viewPagerAdapter = new CallDetailsPagerAdapter(
                 callDetailsActivity.getSupportFragmentManager(),
                 tabLayout.getTabCount()
@@ -121,6 +138,11 @@ public class CallDetailsHelper {
      * Handle Feedback item clicked in drawer.
      */
     public void handleFeedbackClicked(){
+
+        if(callDetailsActivity == null){
+            return;
+        }
+
         Intent intent = new Intent(callDetailsActivity, FeedbackActivity.class);
         callDetailsActivity.startActivity(intent);
     }
@@ -129,6 +151,11 @@ public class CallDetailsHelper {
      * Handle About item clicked in drawer
      */
     public void handleAboutClicked(){
+
+        if(callDetailsActivity == null){
+            return;
+        }
+
         Intent intent = new Intent(callDetailsActivity, AboutActivity.class);
         callDetailsActivity.startActivity(intent);
     }
@@ -137,6 +164,11 @@ public class CallDetailsHelper {
      * handle Sheet Settings changes item clicked in drawer
      */
     public void handleSheetSettingChanges(){
+
+        if(callDetailsActivity == null){
+            return;
+        }
+
         Intent intent = new Intent(callDetailsActivity, ChangeSheetSettingsActivity.class);
         callDetailsActivity.startActivity(intent);
     }

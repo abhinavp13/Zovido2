@@ -10,7 +10,7 @@ public class SceneAnimationView {
     private ImageView mImageView;
     private int[] mFrameRess;
     private int mDuration;
-
+    private SceneAnimationEndListener sceneAnimationEndListener;
     private int mLastFrameNo;
 
     public SceneAnimationView(ImageView pImageView, int[] pFrameRess, int pDuration){
@@ -30,11 +30,27 @@ public class SceneAnimationView {
 
                 if (pFrameNo == mLastFrameNo) {
                     //playConstant(0);  // this repeats the animation
-                }
-                else {
+
+                    if(sceneAnimationEndListener != null){
+                        sceneAnimationEndListener.onEnd();
+                    }
+
+                } else {
                     playConstant(pFrameNo + 1);
+                    try {
+                        System.gc();
+                    } catch (Throwable ignored) {
+                    }
                 }
             }
         }, mDuration);
+    }
+
+    public void setSceneAnimationEndListener(SceneAnimationEndListener sceneAnimationEndListener){
+        this.sceneAnimationEndListener = sceneAnimationEndListener;
+    }
+
+    public interface SceneAnimationEndListener{
+        void onEnd();
     }
 }

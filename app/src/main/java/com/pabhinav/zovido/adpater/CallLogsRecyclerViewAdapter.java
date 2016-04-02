@@ -41,18 +41,28 @@ public class CallLogsRecyclerViewAdapter extends RecyclerView.Adapter<CallLogsRe
     public void onBindViewHolder(CallLogsDataParcelHolder holder, int position) {
 
         CallLogsDataParcel callLogsDataParcel;
-        if(ZovidoApplication.getInstance() != null){
+        if(ZovidoApplication.getInstance() != null
+                && ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().size() > position){
             callLogsDataParcel = ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().get(position);
         } else {
             return;
         }
         
         /** Can't do anything with null call log **/
-        if(callLogsDataParcel == null){
+        if(callLogsDataParcel == null || holder == null){
+            return;
+        }
+        if(holder.name == null
+                || holder.phoneNumber == null
+                || holder.timestamp == null
+                || holder.callDuration == null
+                || holder.callType == null
+                || holder.loadingTickTextView == null
+                || holder.tickImage == null) {
             return;
         }
 
-        /** Call person's N=name for tile **/
+        /** Call person's Name for tile **/
         if(callLogsDataParcel.getName() == null || callLogsDataParcel.getName().length() == 0){
             holder.name.setText(context.getResources().getString(R.string.unknown));
         } else {

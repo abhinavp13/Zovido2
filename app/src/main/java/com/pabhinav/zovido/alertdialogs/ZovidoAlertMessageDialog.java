@@ -15,7 +15,7 @@ import com.pabhinav.zovido.R;
  */
 public class ZovidoAlertMessageDialog {
 
-    private final AlertDialog alertDialog;
+    private AlertDialog alertDialog;
     public OnAlertButtonClicked onAlertButtonClicked;
 
     public ZovidoAlertMessageDialog(Context context, String title, String body, String leftButtonTitle, String rightButtonTitle){
@@ -24,8 +24,15 @@ public class ZovidoAlertMessageDialog {
 
     public ZovidoAlertMessageDialog(Context context, String title, Spanned body, String leftButtonTitle, String rightButtonTitle){
 
+        if(context == null || !(context instanceof Activity)){
+            return;
+        }
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         View rootView = ((Activity) context).getLayoutInflater().inflate(R.layout.alert_dialog_layout, null);
+        if(rootView == null){
+            return;
+        }
         alertDialogBuilder.setView(rootView);
         alertDialog = alertDialogBuilder.create();
 

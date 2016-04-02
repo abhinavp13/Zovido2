@@ -31,6 +31,7 @@ public class Utils {
                 "App Settings"
         );
 
+
         /** Show the alert dialog **/
         zovidoAlertMessageDialog.show();
 
@@ -64,54 +65,71 @@ public class Utils {
     /** Returns string value from initialized bundle **/
     public static String getStringFromBundle(Bundle savedInstanceState, Bundle intentExtras, String token, String defaultValue){
 
-        if(savedInstanceState == null){
-            if(intentExtras == null){
-                return defaultValue;
+        try {
+            if (savedInstanceState == null) {
+                if (intentExtras == null) {
+                    return defaultValue;
+                } else {
+                    return intentExtras.getString(token);
+                }
             } else {
-                return intentExtras.getString(token);
+                return (String) savedInstanceState.getSerializable(token);
             }
-        } else {
-            return (String) savedInstanceState.getSerializable(token);
+        }catch (Exception e){
+            return defaultValue;
         }
     }
 
     /** Returns string value from initialized bundle **/
     public static int getIntFromBundle(Bundle savedInstanceState, Bundle intentExtras, String token, int defaultValue){
 
-        if(savedInstanceState == null){
-            if(intentExtras == null){
-                return defaultValue;
+        try {
+            if (savedInstanceState == null) {
+                if (intentExtras == null) {
+                    return defaultValue;
+                } else {
+                    return intentExtras.getInt(token);
+                }
             } else {
-                return intentExtras.getInt(token);
+                return (int) savedInstanceState.getSerializable(token);
             }
-        } else {
-            return (int) savedInstanceState.getSerializable(token);
+        }catch (Exception e){
+            return defaultValue;
         }
     }
 
     /** Returns boolean value from initialized bundle **/
     public static boolean getBooleanFromBundle(Bundle savedInstanceState, Bundle intentExtras, String token, boolean defaultValue){
-        if(savedInstanceState == null){
-            if(intentExtras == null){
-                return defaultValue;
+
+        try {
+            if (savedInstanceState == null) {
+                if (intentExtras == null) {
+                    return defaultValue;
+                } else {
+                    return intentExtras.getBoolean(token);
+                }
             } else {
-                return intentExtras.getBoolean(token);
+                return (boolean) savedInstanceState.getSerializable(token);
             }
-        } else {
-            return (boolean) savedInstanceState.getSerializable(token);
+        } catch (Exception e){
+            return defaultValue;
         }
     }
 
     /** Returns int value from initialized bundle **/
     public static Long getLongFromBundle(Bundle savedInstanceState, Bundle intentExtras, String token, Long defaultValue){
-        if(savedInstanceState == null){
-            if(intentExtras == null){
-                return defaultValue;
+        try {
+            if (savedInstanceState == null) {
+                if (intentExtras == null) {
+                    return defaultValue;
+                } else {
+                    return intentExtras.getLong(token);
+                }
             } else {
-                return intentExtras.getLong(token);
+                return (Long) savedInstanceState.getSerializable(token);
             }
-        } else {
-            return (Long) savedInstanceState.getSerializable(token);
+        }catch (Exception e){
+            return defaultValue;
         }
     }
 

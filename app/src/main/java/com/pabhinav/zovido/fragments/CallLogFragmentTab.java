@@ -45,8 +45,15 @@ public class CallLogFragmentTab  extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_call_log, container, false);
 
+        if(rootView == null){
+            return null;
+        }
+
         /** Setup recycler view and its adapter **/
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.call_logs_recycler_view);
+        if (recyclerView == null) {
+            return null;
+        }
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         callLogsRecyclerViewAdapter = new CallLogsRecyclerViewAdapter(getActivity());
@@ -66,8 +73,10 @@ public class CallLogFragmentTab  extends Fragment {
     public void onResume() {
         super.onResume();
 
-        /** Notify data set changed, due to changes caused by feed back activity **/
-        callLogsRecyclerViewAdapter.notifyDataSetChanged();
+        if(callLogsRecyclerViewAdapter != null) {
+            /** Notify data set changed, due to changes caused by feed back activity **/
+            callLogsRecyclerViewAdapter.notifyDataSetChanged();
+        }
 
         /** Tracking the screen view **/
         if(ZovidoApplication.getInstance() != null) {
@@ -81,6 +90,10 @@ public class CallLogFragmentTab  extends Fragment {
     /** register and start uploaded data fetch service **/
     private void registerAndStartUploadedItemsDataFetch(){
 
+        if(getActivity() == null){
+            return;
+        }
+
         IntentFilter filter = new IntentFilter(Constants.PROCESS_RESPONSE_UPLOADED_LOG);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         getActivity().registerReceiver(fetchUploadedLogsFromDbReceiver, filter);
@@ -91,6 +104,10 @@ public class CallLogFragmentTab  extends Fragment {
 
     /** Registers call log fetching service and start it **/
     private void registerAndStartService(){
+
+        if(getActivity() == null){
+            return;
+        }
 
         IntentFilter filter = new IntentFilter(Constants.PROCESS_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);

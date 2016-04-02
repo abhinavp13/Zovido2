@@ -2,26 +2,23 @@ package com.pabhinav.zovido.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pabhinav.zovido.R;
 import com.pabhinav.zovido.activities.activityhelpers.CallDetailsHelper;
 import com.pabhinav.zovido.alertdialogs.ZovidoAlertInputDialog;
 import com.pabhinav.zovido.application.ZovidoApplication;
-import com.pabhinav.zovido.drawer.NavigationDrawerElements;
-import com.pabhinav.zovido.util.SharedPreferencesMap;
+import com.pabhinav.zovido.util.Constants;
 
-public class CallDetailsActivity extends AbstractActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CallDetailsActivity extends AbstractActivity {
 
     private boolean toggleUpload;
     private CallDetailsHelper callDetailsHelper;
@@ -43,34 +40,38 @@ public class CallDetailsActivity extends AbstractActivity implements NavigationV
         /** Setup Tabs for this activity **/
         callDetailsHelper.setupTabs();
 
-        /** Set agent name in drawer **/
-        setAgentNameInDrawer();
-
         toggleUpload = false;
+        updateDrawerValues();
+    }
+
+    /** Update the drawer values **/
+    public void updateDrawerValues(){
+
+        /** Update view values in navigation drawer **/
+        if(ZovidoApplication.getInstance() == null){
+            return;
+        }
+
+        /** Update the agent name in the drawer **/
+        ((TextView)findViewById(R.id.agent_name_text_view)).setText(ZovidoApplication.getInstance().getAgentName());
+
+        /** Update the recent calls counter **/
+        int counterValue = ZovidoApplication.getInstance().getCallLogsDataParcelArrayListInstance().size();
+        ((TextView)findViewById(R.id.recent_count_text_view)).setText(String.valueOf(counterValue));
+
+        /** Update the saved calls counter **/
+        int counterSavedValue = ZovidoApplication.getInstance().getSavedLogsDataParcelArrayListInstance().size();
+        ((TextView)findViewById(R.id.saved_count_text_view)).setText(String.valueOf(counterSavedValue));
 
     }
 
     /** Need to add custom form **/
     public void customAdditionFormClicked(View v){
         Intent intent = new Intent(CallDetailsActivity.this, CallFeedbackActivity.class);
+        intent.putExtra(Constants.customForm , true);
         startActivity(intent);
     }
-
-    /** Sets the agent name in the navigation drawer **/
-    public void setAgentNameInDrawer() {
-        if(ZovidoApplication.getInstance() != null){
-            NavigationDrawerElements navigationDrawerElements = ZovidoApplication.getInstance().getDrawerNavigationViewElements(CallDetailsActivity.this);
-
-            if(navigationDrawerElements != null){
-                TextView agentNameTextView = navigationDrawerElements.getAgentNameTextView();
-                if(agentNameTextView != null){
-                    agentNameTextView.setText(ZovidoApplication.getInstance().getAgentName());
-                }
-            }
-
-        }
-    }
-
+    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,32 +117,34 @@ public class CallDetailsActivity extends AbstractActivity implements NavigationV
                 ZovidoApplication.getInstance().setAgentName(editTextString);
 
                 /** Set in drawer **/
-                ZovidoApplication.getInstance().getDrawerNavigationViewElements(CallDetailsActivity.this).getAgentNameTextView().setText(editTextString);
+                TextView agentTextView = ((TextView)findViewById(R.id.agent_name_text_view));
+                if(agentTextView != null){
+                    agentTextView.setText(editTextString);
+                }
             }
         });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        /** Handle navigation view item clicks here. **/
-        int id = item.getItemId();
-
-        if (id == R.id.nav_sheet_settings && callDetailsHelper != null) {
+    /** Change sheet settings **/
+    public void changeSheetSettings(View v){
+        if(callDetailsHelper != null) {
             callDetailsHelper.handleSheetSettingChanges();
-        } else if (id == R.id.nav_feedback && callDetailsHelper != null) {
-            callDetailsHelper.handleFeedbackClicked();
-        } else if (id == R.id.nav_about && callDetailsHelper != null) {
-            callDetailsHelper.handleAboutClicked();
         }
-
-        /** Close drawer **/
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
+    /** About clicked **/
+    public void aboutClicked(View v){
+        if(callDetailsHelper != null){
+            callDetailsHelper.handleAboutClicked();
+        }
+    }
+
+    /** Feedback clicked **/
+    public void feedbackClicked(View v){
+        if(callDetailsHelper != null){
+            callDetailsHelper.handleFeedbackClicked();
+        }
+    }
 
     /**
      * Sets up toolbar and Navigation View related configurations
@@ -155,14 +158,11 @@ public class CallDetailsActivity extends AbstractActivity implements NavigationV
         /** Drawer layout for navigation drawer **/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        if(drawer == null){
+            return;
+        }
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-
-        /** Add item click listener for navigation view **/
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     /** Upload clicked **/
@@ -189,37 +189,36 @@ public class CallDetailsActivity extends AbstractActivity implements NavigationV
     public void toggleFabMenuitems(){
 
         View fakeBackgroundEffect = (View) findViewById(R.id.fake_background_effect);
-        FloatingActionButton fabUpload = (FloatingActionButton) findViewById(R.id.fab_upload);
-        FloatingActionButton localDataStorageFab = (FloatingActionButton) findViewById(R.id.export_to_local_storage);
-        FloatingActionButton cloudDataStorageFab = (FloatingActionButton) findViewById(R.id.export_to_cloud_storage);
-        TextView exportToDriveText = (TextView) findViewById(R.id.text_for_export_to_drive);
-        TextView exportToLocalText = (TextView) findViewById(R.id.text_for_export_to_local_storage);
+        RelativeLayout exportToCloudText = (RelativeLayout) findViewById(R.id.relative_layout_export_to_spread_sheet_text);
+        RelativeLayout exportToLocalStorageText = (RelativeLayout) findViewById(R.id.relative_layout_export_to_local_storage_text);
+        ImageView exportToCloudImage = (ImageView) findViewById(R.id.upload_cloud_fab);
+        ImageView exportToLocalStorageImage = (ImageView) findViewById(R.id.upload_local_fab);
+        ImageView uploadMenu = (ImageView)findViewById(R.id.upload_menu_button);
 
         /** they should all be non-null **/
-        if(fakeBackgroundEffect == null
-                || fabUpload == null
-                || localDataStorageFab == null
-                || cloudDataStorageFab == null
-                || exportToDriveText == null
-                || exportToLocalText == null){
+        if(exportToCloudImage == null
+                || exportToLocalStorageImage == null
+                || exportToLocalStorageText == null
+                || exportToCloudText == null
+                || fakeBackgroundEffect == null
+                || uploadMenu == null){
             return;
         }
 
         if(!toggleUpload){
-            fabUpload.setImageDrawable(getResources().getDrawable(R.drawable.ic_clear_white_24dp));
+            uploadMenu.setImageDrawable(getResources().getDrawable(R.drawable.upload_cross));
             fakeBackgroundEffect.setVisibility(View.VISIBLE);
-            localDataStorageFab.setVisibility(View.VISIBLE);
-            cloudDataStorageFab.setVisibility(View.VISIBLE);
-            exportToDriveText.setVisibility(View.VISIBLE);
-            exportToLocalText.setVisibility(View.VISIBLE);
-
+            exportToCloudImage.setVisibility(View.VISIBLE);
+            exportToCloudText.setVisibility(View.VISIBLE);
+            exportToLocalStorageImage.setVisibility(View.VISIBLE);
+            exportToLocalStorageText.setVisibility(View.VISIBLE);
         } else {
-            fabUpload.setImageDrawable(getResources().getDrawable(R.drawable.ic_file_upload_white_24dp));
+            uploadMenu.setImageDrawable(getResources().getDrawable(R.drawable.upload_fab));
             fakeBackgroundEffect.setVisibility(View.GONE);
-            localDataStorageFab.setVisibility(View.GONE);
-            cloudDataStorageFab.setVisibility(View.GONE);
-            exportToDriveText.setVisibility(View.GONE);
-            exportToLocalText.setVisibility(View.GONE);
+            exportToCloudImage.setVisibility(View.GONE);
+            exportToCloudText.setVisibility(View.GONE);
+            exportToLocalStorageImage.setVisibility(View.GONE);
+            exportToLocalStorageText.setVisibility(View.GONE);
         }
 
         toggleUpload = !toggleUpload;

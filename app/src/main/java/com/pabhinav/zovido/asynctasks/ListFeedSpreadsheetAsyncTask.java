@@ -139,6 +139,10 @@ public class ListFeedSpreadsheetAsyncTask extends AsyncTask<Void, URL, Exception
     @Override
     protected void onProgressUpdate(URL... url) {
 
+        if(context == null){
+            return;
+        }
+
         /** Everything checked, Time to start the uploading service **/
         Intent intent = new Intent(context, UploadingService.class);
         intent.putExtra(Constants.listfeedURL, url[0]);

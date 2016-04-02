@@ -19,7 +19,7 @@ import com.pabhinav.zovido.R;
  */
 public class ZovidoAlertInputDialog {
 
-    private final AlertDialog alertDialog;
+    private AlertDialog alertDialog;
     public OnAlertButtonClicked onAlertButtonClicked;
 
     public ZovidoAlertInputDialog(Context context, String title, String body, String hintText, String leftButtonTitle, String rightButtonTitle){
@@ -28,8 +28,15 @@ public class ZovidoAlertInputDialog {
 
     public ZovidoAlertInputDialog(Context context, String title, Spanned body, String hintText, String leftButtonTitle, String rightButtonTitle){
 
+        if(context == null || !(context instanceof  Activity)){
+            return;
+        }
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        final View rootView = ((Activity) context).getLayoutInflater().inflate(R.layout.alert_dialog_input_layout, null);
+        final View rootView = ((Activity)context).getLayoutInflater().inflate(R.layout.alert_dialog_input_layout, null);
+        if(rootView == null){
+            return;
+        }
         alertDialogBuilder.setView(rootView);
         alertDialog = alertDialogBuilder.create();
 
@@ -52,7 +59,7 @@ public class ZovidoAlertInputDialog {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() >0){
+                if(s.length() >0 && rootView != null){
                     ((TextView)rootView.findViewById(R.id.empty_input_view)).setVisibility(View.GONE);
                 }
             }
@@ -71,11 +78,11 @@ public class ZovidoAlertInputDialog {
         ((TextView)rootView.findViewById(R.id.right_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((AppCompatEditText)rootView.findViewById(R.id.in_dialog_edit_text)).getText().toString().length() == 0){
+                if(rootView != null && ((AppCompatEditText)rootView.findViewById(R.id.in_dialog_edit_text)).getText().toString().length() == 0){
                     ((TextView)rootView.findViewById(R.id.empty_input_view)).setVisibility(View.VISIBLE);
                     return;
                 }
-                if(onAlertButtonClicked != null) {
+                if(onAlertButtonClicked != null && rootView != null) {
                     onAlertButtonClicked.onRightButtonClicked(v,((AppCompatEditText)rootView.findViewById(R.id.in_dialog_edit_text)).getText().toString());
                 }
                 cancel();

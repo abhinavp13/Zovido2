@@ -19,12 +19,17 @@ public class CategoryFirebaseListener {
 
     public void createCategoryFirebaseListeners(){
         Firebase refProduct = new Firebase(BuildConfig.FIREBASE_DASHBOARD_LINK + "product");
-        refProduct.addValueEventListener(new FirebaseValueEventListener(CategoryTypes.Product));
-
         Firebase refPurpose = new Firebase(BuildConfig.FIREBASE_DASHBOARD_LINK + "purpose");
-        refPurpose.addValueEventListener(new FirebaseValueEventListener(CategoryTypes.Purpose));
-
         Firebase refSport = new Firebase(BuildConfig.FIREBASE_DASHBOARD_LINK + "sport");
+
+        if(refProduct == null
+                || refPurpose == null
+                || refSport == null){
+            return;
+        }
+
+        refProduct.addValueEventListener(new FirebaseValueEventListener(CategoryTypes.Product));
+        refPurpose.addValueEventListener(new FirebaseValueEventListener(CategoryTypes.Purpose));
         refSport.addValueEventListener(new FirebaseValueEventListener(CategoryTypes.Sport));
     }
 
